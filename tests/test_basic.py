@@ -23,6 +23,10 @@ class HexTest(unittest.TestCase):
         self.assertEqual(hexathon.add_0x('abcd'), '0xabcd')
 
 
+    def test_even(self):
+        self.assertEqual(hexathon.even('aBc'), '0aBc')
+
+
     def test_uniform(self):
         self.assertEqual(hexathon.uniform('aBc'), '0abc')
 

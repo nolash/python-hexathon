@@ -10,10 +10,14 @@ def valid(hx):
     return hx
 
 
-def uniform(hx):
+def even(hx):
     if len(hx) % 2 != 0:
         hx = '0' + hx
-    return valid(hx).lower()
+    return valid(hx)
+
+
+def uniform(hx):
+    return even(hx).lower()
 
 
 def strip_0x(hx):
@@ -21,7 +25,7 @@ def strip_0x(hx):
         raise ValueError('invalid hex')
     if hx[:2] == '0x':
         hx = hx[2:]
-    return valid(hx)
+    return even(hx)
 
 
 def add_0x(hx):
@@ -29,4 +33,4 @@ def add_0x(hx):
         raise ValueError('invalid hex')
     if hx[:2] == '0x':
         hx = hx[2:]
-    return '0x' + valid(hx)
+    return '0x' + even(hx)
