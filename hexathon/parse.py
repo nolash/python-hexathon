@@ -3,16 +3,19 @@ import re
 
 __re_valid = '^[0-9a-fA-F]+$'
 def valid(hx):
-    if len(hx) == 0 or len(hx) % 2 != 0:
-        raise ValueError('invalid hex')
+    l = len(hx)
+    if l == 0 or l % 2 != 0:
+        raise ValueError('invalid hex (invalid length {})'.format(l))
     if not re.match(__re_valid, hx):
-        raise ValueError('invalid hex')
+        raise ValueError('invalid hex (non-hex character)')
     return hx
 
 
-def even(hx):
+def even(hx, allow_empty=False):
     if len(hx) % 2 != 0:
         hx = '0' + hx
+    if allow_empty and len(hx) == 0:
+        return ''
     return valid(hx)
 
 
@@ -20,20 +23,21 @@ def uniform(hx):
     return even(hx).lower()
 
 
-def strip_0x(hx):
+def strip_0x(hx, allow_empty=False):
     if len(hx) < 2:
         raise ValueError('invalid hex')
     if hx[:2] == '0x':
         hx = hx[2:]
-    return even(hx)
+
+    return even(hx, allow_empty)
 
 
-def add_0x(hx):
-    if len(hx) == 0:
+def add_0x(hx, allow_empty=False):
+    if len(hx) == 0 and not allow_empty:
         raise ValueError('invalid hex')
     if hx[:2] == '0x':
         hx = hx[2:]
-    return '0x' + even(hx)
+    return '0x' + even(hx, allow_empty)
 
 
 def unpad(hx):
