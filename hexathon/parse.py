@@ -24,7 +24,9 @@ def uniform(hx):
 
 
 def strip_0x(hx, allow_empty=False):
-    if len(hx) < 2:
+    if len(hx) == 0 and not allow_empty:
+        raise ValueError('invalid hex')
+    elif len(hx) < 2:
         raise ValueError('invalid hex')
     if hx[:2] == '0x':
         hx = hx[2:]
