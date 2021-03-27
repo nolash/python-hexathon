@@ -56,3 +56,17 @@ def pad(hx, byte_length):
     hx = strip_0x(hx)
     hx = hx.rjust(byte_length * 2, '0')
     return hx
+
+
+def int_to_minbytes(v, byteorder='big'):
+#    c = 0x100
+#    i = 1
+#    while c <= v:
+#        i += 1
+#        c = c << 8
+    l = ((v.bit_length() - 1) >> 3) + 1
+    return v.to_bytes(l, byteorder=byteorder)
+
+
+def int_to_minhex(v):
+    return int_to_minbytes(v).hex()
