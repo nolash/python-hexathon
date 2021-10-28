@@ -31,6 +31,13 @@ class HexTest(unittest.TestCase):
         self.assertEqual(hexathon.uniform('aBc'), '0abc')
 
 
+    def test_unpad(self):
+        self.assertEqual(hexathon.unpad('000abc'), '0abc')
+
+
+    def test_compact(self):
+        self.assertEqual(hexathon.compact('000abc'), 'abc')
+
 
 if __name__ == '__main__':
     unittest.main()

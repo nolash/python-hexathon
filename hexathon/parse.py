@@ -42,14 +42,17 @@ def add_0x(hx, allow_empty=False):
     return '0x' + even(hx, allow_empty)
 
 
-def unpad(hx):
+def compact(hx):
     hx = strip_0x(hx)
     i = 0
     for i in range(len(hx)):
         if hx[i] != '0':
             break
-    hx = hx[i:]
-    return even(hx)
+    return hx[i:]
+
+
+def unpad(hx):
+    return even(compact(hx))
 
 
 def pad(hx, byte_length):
