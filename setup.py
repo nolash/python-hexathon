@@ -1,3 +1,8 @@
 from setuptools import setup
 
-setup()
+setup(
+        packages=[
+            'hexathon',
+            ],
+        license='WTFPL',
+        )
