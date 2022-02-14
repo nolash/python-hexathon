@@ -41,6 +41,9 @@ class HexTest(unittest.TestCase):
 
     def test_compact(self):
         self.assertEqual(hexathon.compact('000abc'), 'abc')
+        self.assertEqual(hexathon.compact('0x000abc'), 'abc')
+        self.assertEqual(hexathon.compact('abc'), 'abc')
+        self.assertEqual(hexathon.compact('0xabc'), 'abc')
 
 
 if __name__ == '__main__':

@@ -52,8 +52,8 @@ def add_0x(hx, allow_empty=False, compact_value=False):
 
 
 def compact(hx, allow_empty=False):
-    hx = strip_0x(hx, allow_empty)
     i = 0
+    hx = strip_0x(hx)
     for i in range(len(hx)):
         if hx[i] != '0':
             break
