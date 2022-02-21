@@ -2,21 +2,23 @@ import re
 
 
 __re_valid = '^[0-9a-fA-F]+$'
-def valid(hx):
+def valid(hx, allow_compact=False):
     l = len(hx)
-    if l == 0 or l % 2 != 0:
+    if l == 0:
         raise ValueError('invalid hex (invalid length {})'.format(l))
+    if not allow_compact and l % 2 != 0:
+        raise ValueError('invalid hex (invalid length {}, no compact allowed)'.format(l))
     if not re.match(__re_valid, hx):
         raise ValueError('invalid hex (non-hex character)')
     return hx
 
 
-def even(hx, allow_empty=False):
+def even(hx, allow_empty=False, allow_compact=False):
     if len(hx) % 2 != 0:
         hx = '0' + hx
     if allow_empty and len(hx) == 0:
         return ''
-    return valid(hx)
+    return valid(hx, allow_compact=allow_compact)
 
 
 def uniform(hx):
@@ -26,15 +28,16 @@ def uniform(hx):
 def strip_0x(hx, allow_empty=False, compact_value=False):
     if len(hx) == 0 and not allow_empty:
         raise ValueError('invalid hex')
-    elif len(hx) < 2:
-        raise ValueError('invalid hex')
-    if hx[:2] == '0x':
-        hx = hx[2:]
+    elif len(hx) > 1:
+        if hx[:2] == '0x':
+            hx = hx[2:]
+    if len(hx) > 0:
+        hx = valid(hx, allow_compact=True)
 
     if compact_value:
-        v = compact(hx, allow_empty)
+        v = compact(hx, allow_empty=allow_empty)
     else:
-        v = even(hx, allow_empty)
+        v = even(hx, allow_empty=allow_empty, allow_compact=True)
     return v
 
 
@@ -45,15 +48,19 @@ def add_0x(hx, allow_empty=False, compact_value=False):
         hx = hx[2:]
     v = ''
     if compact_value:
-        v = compact(hx, allow_empty)
+        v = compact(hx, allow_empty=allow_empty)
     else:
-        v = even(hx, allow_empty)
+        v = even(hx, allow_empty=allow_empty, allow_compact=True)
     return '0x' + v
 
 
 def compact(hx, allow_empty=False):
+    if len(hx) == 0:
+        if not allow_empty:
+            raise ValueError('invalid hex (empty)')
+    else:
+        hx = valid(hx, allow_compact=True)
     i = 0
-    hx = strip_0x(hx)
     for i in range(len(hx)):
         if hx[i] != '0':
             break
@@ -64,9 +71,12 @@ def unpad(hx):
     return even(compact(hx))
 
 
-def pad(hx, byte_length):
-    hx = strip_0x(hx)
-    hx = hx.rjust(byte_length * 2, '0')
+def pad(hx, byte_length=0, allow_compact=False):
+    hx = valid(hx, allow_compact=allow_compact)
+    if byte_length == 0:
+       hx = even(hx, allow_compact=allow_compact)
+    else:
+        hx = hx.rjust(byte_length * 2, '0')
     return hx
 
 

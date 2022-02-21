@@ -1,3 +1,5 @@
+- 0.1.5
+	* Avoid reciprocal dependency between 0x and compact/even
 - 0.1.4
 	* Add to_int method
 - 0.1.3
