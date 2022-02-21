@@ -82,3 +82,16 @@ def int_to_minbytes(v, byteorder='big'):
 
 def int_to_minhex(v):
     return int_to_minbytes(v).hex()
+
+
+def to_int(v, need_prefix=False):
+    if len(v) == 0:
+        raise ValueError('empty value')
+    if need_prefix:
+        if len(v) < 2:
+            raise ValueError('value too short')
+        if v[:2] != '0x':
+            raise ValueError('missing prefix')
+
+    v = strip_0x(v)
+    return int(v, 16)

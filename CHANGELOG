@@ -1,2 +1,6 @@
+- 0.1.4
+	* Add to_int method
+- 0.1.3
+	* Fix missing 0x strip in compact handling
 - 0.0.1
 	* Add valid, uniform, 0x strip and add
