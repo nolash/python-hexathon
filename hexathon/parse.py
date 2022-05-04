@@ -38,6 +38,8 @@ def strip_0x(hx, allow_empty=False, compact_value=False, pad=True):
         v = compact(hx, allow_empty=allow_empty)
     elif pad:
         v = even(hx, allow_empty=allow_empty, allow_compact=True)
+    else:
+        v = hx
     return v
 
 
@@ -51,6 +53,8 @@ def add_0x(hx, allow_empty=False, compact_value=False, pad=True):
         v = compact(hx, allow_empty=allow_empty)
     elif pad:
         v = even(hx, allow_empty=allow_empty, allow_compact=True)
+    else:
+        v = hx
     return '0x' + v
 
 

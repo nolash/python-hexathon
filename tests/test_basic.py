@@ -23,8 +23,19 @@ class HexTest(unittest.TestCase):
         self.assertEqual(hexathon.add_0x('abcd'), '0xabcd')
         self.assertEqual(hexathon.strip_0x('0x000abcd'), '0000abcd')
         self.assertEqual(hexathon.add_0x('000abcd'), '0x0000abcd')
+
+
+    def test_0x_compact(self):
         self.assertEqual(hexathon.strip_0x('0x000abcd', compact_value=True), 'abcd')
         self.assertEqual(hexathon.add_0x('000abcd', compact_value=True), '0xabcd')
+
+
+    def test_0x_nopad(self):
+        v = '0xabcde'
+        r = hexathon.strip_0x(v)
+        self.assertEqual(r, '0abcde')
+        r = hexathon.strip_0x(v, pad=False)
+        self.assertEqual(r, 'abcde')
 
 
     def test_even(self):
