@@ -25,7 +25,7 @@ def uniform(hx):
     return even(hx).lower()
 
 
-def strip_0x(hx, allow_empty=False, compact_value=False):
+def strip_0x(hx, allow_empty=False, compact_value=False, pad=True):
     if len(hx) == 0 and not allow_empty:
         raise ValueError('invalid hex')
     elif len(hx) > 1:
@@ -36,12 +36,12 @@ def strip_0x(hx, allow_empty=False, compact_value=False):
 
     if compact_value:
         v = compact(hx, allow_empty=allow_empty)
-    else:
+    elif pad:
         v = even(hx, allow_empty=allow_empty, allow_compact=True)
     return v
 
 
-def add_0x(hx, allow_empty=False, compact_value=False):
+def add_0x(hx, allow_empty=False, compact_value=False, pad=True):
     if len(hx) == 0 and not allow_empty:
         raise ValueError('invalid hex')
     if hx[:2] == '0x':
@@ -49,7 +49,7 @@ def add_0x(hx, allow_empty=False, compact_value=False):
     v = ''
     if compact_value:
         v = compact(hx, allow_empty=allow_empty)
-    else:
+    elif pad:
         v = even(hx, allow_empty=allow_empty, allow_compact=True)
     return '0x' + v
 
