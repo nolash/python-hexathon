@@ -54,6 +54,25 @@ class HexTest(unittest.TestCase):
         self.assertEqual(hexathon.compact('000abc'), 'abc')
         self.assertEqual(hexathon.compact('abc'), 'abc')
 
+    
+    def test_same(self):
+        x = 'deadbeef'
+        y = '0xdeadbeef'
+        self.assertTrue(hexathon.same(x, y))
+
+
+        x = '0deadbeef'
+        y = '00deadbeef'
+        self.assertTrue(hexathon.same(x, y))
+        self.assertFalse(hexathon.same(x, y, pad=False))
+        self.assertTrue(hexathon.same(x, y, compact_value=True))
+
+        x = '0x'
+        y = ''
+        with self.assertRaises(ValueError):
+            hexathon.same(x, y)
+        self.assertTrue(hexathon.same(x, y, allow_empty=True))
+
 
 if __name__ == '__main__':
     unittest.main()

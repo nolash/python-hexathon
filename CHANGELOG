@@ -1,3 +1,7 @@
+- 0.1.7
+	* Add "same" comparison method
+- 0.1.6
+	* Avoid unintended padding of uneven hex for strip and add 0x
 - 0.1.5
 	* Avoid reciprocal dependency between 0x and compact/even
 - 0.1.4

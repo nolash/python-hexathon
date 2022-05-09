@@ -21,8 +21,10 @@ def even(hx, allow_empty=False, allow_compact=False):
     return valid(hx, allow_compact=allow_compact)
 
 
-def uniform(hx):
-    return even(hx).lower()
+def uniform(hx, allow_empty=False, compact_value=False):
+    if compact_value:
+        return hx.lower()
+    return even(hx, allow_empty=allow_empty).lower()
 
 
 def strip_0x(hx, allow_empty=False, compact_value=False, pad=True):
@@ -109,3 +111,15 @@ def to_int(v, need_prefix=False):
 
     v = strip_0x(v)
     return int(v, 16)
+
+
+def same(x, y, allow_empty=False, compact_value=False, pad=True):
+    no_uniform_compact = compact_value or not pad
+
+    vl = strip_0x(x, allow_empty=allow_empty, compact_value=compact_value, pad=pad)
+    vl = uniform(vl, allow_empty=allow_empty, compact_value=no_uniform_compact)
+
+    vr = strip_0x(y, allow_empty=allow_empty, compact_value=compact_value, pad=pad)
+    vr = uniform(vr, allow_empty=allow_empty, compact_value=no_uniform_compact)
+
+    return vl == vr
